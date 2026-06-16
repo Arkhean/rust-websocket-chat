@@ -20,6 +20,7 @@ pub struct RoomResponse {
     name: String,
 }
 
+/// CRUD: create
 pub async fn create_room(
     State(state): State<SharedState>,
     Json(payload): Json<CreateRoomInput>,
@@ -44,6 +45,7 @@ pub async fn create_room(
     })
 }
 
+/// CRUD: retrieve
 pub async fn list_rooms(State(state): State<SharedState>) -> Json<Vec<RoomResponse>> {
     let state = state.read().unwrap();
     let rooms = state
@@ -58,6 +60,7 @@ pub async fn list_rooms(State(state): State<SharedState>) -> Json<Vec<RoomRespon
     Json(rooms)
 }
 
+/// CRUD: delete
 pub async fn delete_room(
     Path(id): Path<String>,
     State(state): State<SharedState>,

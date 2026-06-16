@@ -13,9 +13,10 @@ use tracing::info;
 
 use crate::app_state::{ChatMessage, SharedState};
 
+/// Query parameters for the websocket
 #[derive(Deserialize)]
 pub struct ConnectionParams {
-    token: String,
+    token: String,  // used to identify users
 }
 
 /// Router for the websocket creation
@@ -116,6 +117,7 @@ pub async fn handle_chat_socket(
     info!("{} left the chat", pseudo);
 }
 
+/// Return the chat history for a given room (id) found in the state
 pub async fn list_history(
     Path(id): Path<String>,
     State(state): State<SharedState>,
@@ -125,5 +127,5 @@ pub async fn list_history(
         .rooms
         .get(&id)
         .map(|room| Json(room.history.clone()).into_response())
-        .unwrap_or_else(|| StatusCode::NOT_FOUND.into_response())
+        .unwrap_or_else(|| StatusCode::NOT_FOUND.into_response()) // 404 when not found
 }

@@ -16,6 +16,8 @@ pub struct LoginResponse {
 }
 
 /// Router for login
+/// Users give a pseudo
+/// and the server gives them a token to be used to identify in chat rooms
 pub async fn login(
     State(state): State<SharedState>,
     Json(payload): Json<LoginRequest>,
